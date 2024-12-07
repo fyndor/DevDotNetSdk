@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevDotNetSdk", "DevDotNetSdk\DevDotNetSdk.csproj", "{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

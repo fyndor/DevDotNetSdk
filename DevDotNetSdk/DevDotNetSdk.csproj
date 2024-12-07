@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>DevDotNetSdk</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Greg Cobb</Authors>
+    <Description>A collection of types and tools that are useful in implementing solutions in .NET.</Description>
+    <PackageTags>tools</PackageTags> 
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/fyndor/PromptClient</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\LICENSE.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+      <None Include="..\README.md" Pack="true" PackagePath=""/>
+  </ItemGroup>
+</Project>
