@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevDotNetSdk", "DevDotNetSdk\DevDotNetSdk.csproj", "{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevDotNetSdk.Templating", "DevDotNetSdk.Templating\DevDotNetSdk.Templating.csproj", "{D2211686-077C-465F-80B2-FFB96D2AB76C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevDotNetSdk.Templating.Tests", "DevDotNetSdk.Templating.Tests\DevDotNetSdk.Templating.Tests.csproj", "{E0AC4959-DC0E-4383-959A-275D29C1E5E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDBC76E6-B035-4548-8B31-EE2EE17C93AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2211686-077C-465F-80B2-FFB96D2AB76C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2211686-077C-465F-80B2-FFB96D2AB76C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2211686-077C-465F-80B2-FFB96D2AB76C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2211686-077C-465F-80B2-FFB96D2AB76C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0AC4959-DC0E-4383-959A-275D29C1E5E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0AC4959-DC0E-4383-959A-275D29C1E5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0AC4959-DC0E-4383-959A-275D29C1E5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0AC4959-DC0E-4383-959A-275D29C1E5E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

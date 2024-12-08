@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>DevDotNetSdk.Templating</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Greg Cobb</Authors>
+    <Description>A simple markdown based templating solution for .NET</Description>
+    <PackageTags>tools;templating;templates;markdown</PackageTags> 
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/fyndor/DevDotNetSdk</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevDotNetSdk\DevDotNetSdk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="13.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\LICENSE.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+  
+  <ItemGroup>
+      <None Include="README.md" Pack="true" PackagePath=""/>
+  </ItemGroup>
+</Project>
