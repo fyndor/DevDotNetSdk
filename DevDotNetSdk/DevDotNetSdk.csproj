@@ -12,7 +12,7 @@
     <PackageTags>tools</PackageTags> 
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/fyndor/PromptClient</RepositoryUrl>
+    <RepositoryUrl>https://github.com/fyndor/DevDotNetSdk</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
