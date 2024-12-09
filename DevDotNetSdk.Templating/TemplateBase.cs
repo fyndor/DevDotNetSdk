@@ -105,7 +105,7 @@ public abstract partial class TemplateBase<TInput>
                 var subTemplateType = _templateProvider.GetTemplateType(subTemplateName)
                     ?? throw new InvalidOperationException($"Sub-template '{subTemplateName}' not found.");
 
-                var subTemplateInstance = Activator.CreateInstance(subTemplateType)
+                var subTemplateInstance = Activator.CreateInstance(subTemplateType, _templateProvider)
                     ?? throw new InvalidOperationException($"Unable to instantiate sub-template '{subTemplateName}'.");
 
                 var buildPromptMethod = subTemplateType.GetMethod(nameof(Render))

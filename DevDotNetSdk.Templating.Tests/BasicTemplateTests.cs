@@ -49,4 +49,24 @@ public class BasicTemplateTests
 
         Assert.Equal(message, result);
     }
+
+    [Fact]
+    public void HelloWorld_BuilderWithSubTemplates_GetsExpectedResult()
+    {
+        var name = "Hello, World!";
+        var model = new HelloWorldModel
+        { 
+            Message = "doesnt matter, not part of template", 
+            Items =
+            [
+                new() { Name = name } 
+            ] 
+        };
+
+        var templateBuilder = new TemplateBuilder()
+            .AddAssemblyTemplateSource(Assembly.GetExecutingAssembly());
+        var result = templateBuilder.Render<HelloWorldWithSubTemplate, HelloWorldModel>(model);
+
+        Assert.Equal(name, result);
+    }
 }

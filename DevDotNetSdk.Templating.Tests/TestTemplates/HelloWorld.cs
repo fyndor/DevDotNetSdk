@@ -1,10 +1,24 @@
 namespace DevDotNetSdk.Templating.Tests.TestTemplates;
 
-internal class HelloWorld(TemplateProvider templateProvider) : TemplateBase<HelloWorldModel>(templateProvider)
+public class HelloWorld(TemplateProvider templateProvider) : TemplateBase<HelloWorldModel>(templateProvider)
 {
 }
 
-internal class HelloWorldModel
+public class HelloWorldModel
 {
     public string Message { get; set; } = string.Empty;
+    public List<HelloWorldItem> Items { get; set; } = [];
+}
+
+public class HelloWorldItem
+{
+    public string Name { get; set; } = string.Empty;
+}
+
+public class HelloWorldWithSubTemplate(TemplateProvider templateProvider) : TemplateBase<HelloWorldModel>(templateProvider)
+{
+}
+
+public class HelloWorldSubTemplate(TemplateProvider templateProvider) : TemplateBase<HelloWorldItem>(templateProvider)
+{
 }
