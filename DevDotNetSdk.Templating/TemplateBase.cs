@@ -23,7 +23,7 @@ public abstract partial class TemplateBase<TInput>
         _templateItems = ParseTemplate(GetTemplateContent());
     }
 
-    public string Render(TInput input)
+    public string Render(TInput? input)
     {
         var builder = new StringBuilder();
         foreach (var item in _templateItems)
@@ -40,11 +40,32 @@ public abstract partial class TemplateBase<TInput>
                     break;
 
                 case LoopTemplateItem loopItem:
-                    ProcessLoopTemplateItem(loopItem, input, builder);
+                    ProcessLoopTemplateItem(loopItem, input!, builder);
+                    break;
+                case IfTemplateItem ifItem:
+                    ProcessIfTemplateItem(ifItem, input!, builder);
                     break;
             }
         }
         return builder.ToString();
+    }
+
+    private static void ProcessIfTemplateItem(
+        IfTemplateItem ifItem,
+        TInput input,
+        StringBuilder builder)
+    {
+        var conditionValue = GetValueFromInput(ifItem.ConditionExpression, input) as bool?;
+        if (conditionValue == true)
+        {
+            var templateInput = ifItem.InputExpression != null
+                ? GetValueFromInput(ifItem.InputExpression, input)
+                : null;
+
+            var subContent = ifItem.RenderMethod.Invoke(ifItem.SubTemplateInstance, [templateInput]) as string
+                ?? throw new InvalidOperationException("Sub-template did not return a valid string.");
+            builder.Append(subContent);
+        }
     }
 
     private static void ProcessLoopTemplateItem(
@@ -92,7 +113,30 @@ public abstract partial class TemplateBase<TInput>
                 items.Add(new TextTemplateItem(text));
             }
             var expression = match.Groups[1].Value.Trim();
-            if (expression.StartsWith("foreach:", StringComparison.OrdinalIgnoreCase))
+            if (expression.StartsWith("if:", StringComparison.OrdinalIgnoreCase))
+            {
+                var parts = expression.Split(':', StringSplitOptions.TrimEntries);
+                if (parts.Length < 3 || parts.Length > 4)
+                {
+                    throw new InvalidOperationException($"Invalid if syntax: {expression}");
+                }
+
+                var conditionExpression = parts[1];
+                var subTemplateName = parts[2];
+                var inputExpression = parts.Length == 4 ? parts[3] : null;
+
+                var subTemplateType = _templateProvider.GetTemplateType(subTemplateName)
+                    ?? throw new InvalidOperationException($"Sub-template '{subTemplateName}' not found.");
+
+                var subTemplateInstance = Activator.CreateInstance(subTemplateType, _templateProvider)
+                    ?? throw new InvalidOperationException($"Unable to instantiate sub-template '{subTemplateName}'.");
+
+                var renderMethod = subTemplateType.GetMethod(nameof(Render))
+                    ?? throw new InvalidOperationException($"Sub-template '{subTemplateName}' does not have a Render method.");
+
+                items.Add(new IfTemplateItem(conditionExpression, subTemplateInstance, renderMethod, inputExpression));
+            }
+            else if (expression.StartsWith("foreach:", StringComparison.OrdinalIgnoreCase))
             {
                 var parts = expression.Split(':', 3);
                 if (parts.Length != 3) 

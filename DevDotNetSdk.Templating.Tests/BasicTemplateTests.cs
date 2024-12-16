@@ -69,4 +69,43 @@ public class BasicTemplateTests
 
         Assert.Equal(name, result);
     }
+
+    [Fact]
+    public void IfStatement_RendersCorrectly()
+    {
+        const string NAME = "Hello, World!";
+        var model = new IfTestModel
+        {
+            Condition = true,
+            SubModel = new IfSubModel { Name = NAME }
+        };
+
+        var templateContent = "{{if:Condition:IfSubTemplate:SubModel}}";
+        var templateBuilder = new TemplateBuilder()
+            .AddManualTemplate<IfTemplate, IfTestModel>(templateContent)
+            .AddManualTemplate<IfSubTemplate, IfSubModel>("{{Name}}");
+
+        var result = templateBuilder.Render<IfTemplate, IfTestModel>(model);
+
+        Assert.Equal(NAME, result);
+    }
+
+    [Fact]
+    public void IfStatement_WithNoSubTemplateInput_RendersCorrectly()
+    {
+        const string NAME = "Hello, World!";
+        var model = new IfTestModel
+        {
+            Condition = true
+        };
+
+        var templateContent = "{{if:Condition:IfSubNoInputTemplate}}";
+        var templateBuilder = new TemplateBuilder()
+            .AddManualTemplate<IfTemplate, IfTestModel>(templateContent)
+            .AddManualTemplate<IfSubNoInputTemplate, object>(NAME);
+
+        var result = templateBuilder.Render<IfTemplate, IfTestModel>(model);
+
+        Assert.Equal(NAME, result);
+    }
 }

@@ -28,7 +28,7 @@ public class TemplateBuilder
         return this;
     }
 
-    public string Render<TTemplate, TModel>(TModel model) where TTemplate : TemplateBase<TModel>
+    public string Render<TTemplate, TModel>(TModel? model = default) where TTemplate : TemplateBase<TModel>
     {
         var type = typeof(TTemplate);
         if (!_templates.TryGetValue(type, out var templateObj))
