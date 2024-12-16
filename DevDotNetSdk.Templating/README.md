@@ -10,6 +10,8 @@ The `DevDotNetSdk` library is a collection of types and tools that are useful in
 
 ## Release Notes
 
+- v0.4.1
+  Added ability to use 'this' with include, which used the current model as the sub template's input model, rather than a property name on the current model.
 - v0.4
   Added 'include' directives. See tests for examples
 - v0.3

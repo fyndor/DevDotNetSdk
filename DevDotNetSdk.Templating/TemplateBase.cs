@@ -12,7 +12,7 @@ public abstract partial class TemplateBase<TInput>
 {
     private static readonly Dictionary<string, string> TemplateCache = [];
     private readonly TemplateProvider _templateProvider;
-    private readonly TemplateItem[] _templateItems;
+    private TemplateItem[] _templateItems = [];
     private static readonly IDeserializer YamlDeserializer = new DeserializerBuilder()
         .WithNamingConvention(CamelCaseNamingConvention.Instance)
         .Build();
@@ -20,11 +20,15 @@ public abstract partial class TemplateBase<TInput>
     protected TemplateBase(TemplateProvider templateProvider)
     {
         _templateProvider = templateProvider;
-        _templateItems = ParseTemplate(GetTemplateContent());
+        
     }
 
     public string Render(TInput? input)
     {
+        if (_templateItems.Length == 0)
+        {
+            _templateItems = ParseTemplate(GetTemplateContent());
+        }
         var builder = new StringBuilder();
         foreach (var item in _templateItems)
         {
@@ -60,7 +64,7 @@ public abstract partial class TemplateBase<TInput>
     {
         var templateInput = includeItem.InputExpression != null
             ? GetValueFromInput(includeItem.InputExpression, input)
-            : null;
+            : input;
 
         var subContent = includeItem.RenderMethod.Invoke(includeItem.SubTemplateInstance, [templateInput]) as string
             ?? throw new InvalidOperationException("Sub-template did not return a valid string.");
@@ -133,6 +137,14 @@ public abstract partial class TemplateBase<TInput>
             if (expression.StartsWith("include:", StringComparison.OrdinalIgnoreCase))
             {
                 var parts = expression.Split(':', StringSplitOptions.TrimEntries);
+                for (var i = 1; i < parts.Length; i++)
+                {
+                    if (!string.IsNullOrWhiteSpace(parts[i]))
+                    {
+                        continue;
+                    }
+                    throw new InvalidOperationException($"Invalid include syntax: {expression}");
+                }
                 if (parts.Length < 2 || parts.Length > 3)
                 {
                     throw new InvalidOperationException($"Invalid include syntax: {expression}");
@@ -141,6 +153,10 @@ public abstract partial class TemplateBase<TInput>
                 var subTemplateName = parts[1];
                 var inputExpression = parts.Length == 3 ? parts[2] : null;
 
+                if (inputExpression == "this")
+                {
+                    inputExpression = null;
+                }
                 var subTemplateType = _templateProvider.GetTemplateType(subTemplateName)
                     ?? throw new InvalidOperationException($"Sub-template '{subTemplateName}' not found.");
 
@@ -209,8 +225,6 @@ public abstract partial class TemplateBase<TInput>
         }
         return items;
     }
-
-
    
     private static object? GetValueFromInput(string expression, object? input)
     {

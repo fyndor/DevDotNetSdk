@@ -147,5 +147,49 @@ public class BasicTemplateTests
 
         Assert.Equal(content, result);
     }
+    
+    [Fact]
+    public void IncludeStatement_MissingSubTemplateName_Throws()
+    {
+        var templateContent = "{{include:}}";
 
+        var templateBuilder = new TemplateBuilder()
+            .AddManualTemplate<HelloWorld, HelloWorldModel>(templateContent);
+
+        Assert.Throws<InvalidOperationException>(() =>
+            templateBuilder.Render<HelloWorld, HelloWorldModel>(new HelloWorldModel()));
+    }
+
+    [Fact]
+    public void IncludeStatement_InvalidInputExpression_Throws()
+    {
+        var templateContent = "{{include:HelloWorldSubNoInputTemplate:InvalidPropertyName}}";
+
+        var model = new HelloWorldModel { Message = "Hello!" };
+
+        var templateBuilder = new TemplateBuilder()
+            .AddManualTemplate<HelloWorld, HelloWorldModel>(templateContent)
+            .AddManualTemplate<HelloWorldSubNoInputTemplate, object>("");
+
+        Assert.Throws<InvalidOperationException>(() =>
+            templateBuilder.Render<HelloWorld, HelloWorldModel>(model));
+    }
+
+    [Fact]
+    public void IncludeStatement_WithThis_RendersSubTemplate()
+    {
+        var message = "Hello, World!";
+        var model = new HelloWorldModel { Message = message };
+
+        var templateContent = "{{include:HelloWorldSuperSubTemplate:this}}";
+        var subTemplateContent = "{{Message}}";
+
+        var templateBuilder = new TemplateBuilder()
+            .AddManualTemplate<HelloWorld, HelloWorldModel>(templateContent)
+            .AddManualTemplate<HelloWorldSuperSubTemplate, HelloWorldModel>(subTemplateContent);
+
+        var result = templateBuilder.Render<HelloWorld, HelloWorldModel>(model);
+
+        Assert.Equal(message, result);
+    }
 }
