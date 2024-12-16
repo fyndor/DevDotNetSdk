@@ -10,7 +10,9 @@ The `DevDotNetSdk` library is a collection of types and tools that are useful in
 
 ## Release Notes
 
+- v0.4
+  Added 'include' directives. See tests for examples
 - v0.3
-  Added 'if' statements.  See tests for examples.
+  Added 'if' directives. See tests for examples.
 
 **Note**: While this library is a 0.x version, expect that the shape of the library may change a bit.  Once I get to a 1.0, I will use the standard symantic version practices, and major versions will indicate there was a breaking change of some type.

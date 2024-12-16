@@ -45,9 +45,26 @@ public abstract partial class TemplateBase<TInput>
                 case IfTemplateItem ifItem:
                     ProcessIfTemplateItem(ifItem, input!, builder);
                     break;
+                case IncludeTemplateItem includeItem:
+                    ProcessIncludeTemplateItem(includeItem, input!, builder);
+                    break;
             }
         }
         return builder.ToString();
+    }
+
+    private static void ProcessIncludeTemplateItem(
+        IncludeTemplateItem includeItem,
+        TInput input,
+        StringBuilder builder)
+    {
+        var templateInput = includeItem.InputExpression != null
+            ? GetValueFromInput(includeItem.InputExpression, input)
+            : null;
+
+        var subContent = includeItem.RenderMethod.Invoke(includeItem.SubTemplateInstance, [templateInput]) as string
+            ?? throw new InvalidOperationException("Sub-template did not return a valid string.");
+        builder.Append(subContent);
     }
 
     private static void ProcessIfTemplateItem(
@@ -113,7 +130,29 @@ public abstract partial class TemplateBase<TInput>
                 items.Add(new TextTemplateItem(text));
             }
             var expression = match.Groups[1].Value.Trim();
-            if (expression.StartsWith("if:", StringComparison.OrdinalIgnoreCase))
+            if (expression.StartsWith("include:", StringComparison.OrdinalIgnoreCase))
+            {
+                var parts = expression.Split(':', StringSplitOptions.TrimEntries);
+                if (parts.Length < 2 || parts.Length > 3)
+                {
+                    throw new InvalidOperationException($"Invalid include syntax: {expression}");
+                }
+
+                var subTemplateName = parts[1];
+                var inputExpression = parts.Length == 3 ? parts[2] : null;
+
+                var subTemplateType = _templateProvider.GetTemplateType(subTemplateName)
+                    ?? throw new InvalidOperationException($"Sub-template '{subTemplateName}' not found.");
+
+                var subTemplateInstance = Activator.CreateInstance(subTemplateType, _templateProvider)
+                    ?? throw new InvalidOperationException($"Unable to instantiate sub-template '{subTemplateName}'.");
+
+                var renderMethod = subTemplateType.GetMethod(nameof(Render))
+                    ?? throw new InvalidOperationException($"Sub-template '{subTemplateName}' does not have a Render method.");
+
+                items.Add(new IncludeTemplateItem(subTemplateInstance, renderMethod, inputExpression));
+            } 
+            else if (expression.StartsWith("if:", StringComparison.OrdinalIgnoreCase))
             {
                 var parts = expression.Split(':', StringSplitOptions.TrimEntries);
                 if (parts.Length < 3 || parts.Length > 4)

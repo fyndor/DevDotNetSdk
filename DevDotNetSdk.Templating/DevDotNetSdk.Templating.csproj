@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>DevDotNetSdk.Templating</PackageId>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <Authors>Greg Cobb</Authors>
     <Description>A simple markdown based templating solution for .NET</Description>
     <PackageTags>tools;templating;templates;markdown</PackageTags> 

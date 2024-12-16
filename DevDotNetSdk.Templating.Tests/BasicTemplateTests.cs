@@ -108,4 +108,44 @@ public class BasicTemplateTests
 
         Assert.Equal(NAME, result);
     }
+
+    [Fact]
+    public void IncludeStatement_RendersSubTemplate()
+    {
+        var model = new IncludeTestModel
+        {
+            SubModel = new IncludeSubModel { Content = "Wont be shown" }
+        };
+        var templateContent = "{{include:IncludeSubNoInputTemplate}}";
+        var subTemplateContent = "Static SubTemplate Content";
+
+        var templateBuilder = new TemplateBuilder()
+            .AddManualTemplate<IncludeTemplate, IncludeTestModel>(templateContent)
+            .AddManualTemplate<IncludeSubNoInputTemplate, object>(subTemplateContent);
+
+        var result = templateBuilder.Render<IncludeTemplate, IncludeTestModel>(model);
+
+        Assert.Equal(subTemplateContent, result);
+    }
+
+    [Fact]
+    public void IncludeStatement_WithInput_RendersSubTemplate()
+    {
+        var content = "Hello World";
+        var model = new IncludeTestModel
+        {
+            SubModel = new IncludeSubModel { Content = content }
+        };
+        var templateContent = "{{include:IncludeSubTemplate:SubModel}}";
+        var subTemplateContent = "{{Content}}";
+
+        var templateBuilder = new TemplateBuilder()
+            .AddManualTemplate<IncludeTemplate, IncludeTestModel>(templateContent)
+            .AddManualTemplate<IncludeSubTemplate, IncludeSubModel>(subTemplateContent);
+
+        var result = templateBuilder.Render<IncludeTemplate, IncludeTestModel>(model);
+
+        Assert.Equal(content, result);
+    }
+
 }
