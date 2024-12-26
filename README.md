@@ -12,5 +12,9 @@ This type allows you to return errors as values rather than throwing exceptions.
 
 This type acts the same as the above type, but it is to be used with methods that return no value, but can result in an error.
 
+## Release Notes
 
-
+- v0.3
+  Added `Option<T>`
+- v0.2
+  Added `Variant<T1, T2>` and `Variant<T1, T2, T3>`
