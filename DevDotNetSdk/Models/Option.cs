@@ -17,9 +17,9 @@ public readonly struct Option<TValue>
         IsSet = false;
     }
 
-    public static Option<TValue> Some(TValue value) => new(value);
+    public static Option<TValue> FromSome(TValue value) => new(value);
 
-    public static Option<TValue> None() => new();
+    public static Option<TValue> FromNone() => new();
 
     public readonly bool IsSome => IsSet && Value is not null;
 
