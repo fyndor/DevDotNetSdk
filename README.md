@@ -14,6 +14,8 @@ This type acts the same as the above type, but it is to be used with methods tha
 
 ## Release Notes
 
+- v0.5
+  Changed `Option<T> signature`
 - v0.4
   Changed `Option<T> signature`
 - v0.3
