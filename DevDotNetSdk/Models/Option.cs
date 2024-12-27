@@ -26,4 +26,6 @@ public readonly struct Option<TValue>
     public readonly bool IsNone => !IsSet;
 
     public readonly TValue Unwrap() => Value ?? throw new InvalidOperationException("Cannot unwrap an Option with no value.");
+
+    public readonly TValue? UnwrapOrDefault(TValue? defaultValue = default) => IsSet ? Value! : defaultValue;
 }
