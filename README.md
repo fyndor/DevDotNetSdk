@@ -14,6 +14,9 @@ This type acts the same as the above type, but it is to be used with methods tha
 
 ## Release Notes
 
+- v0.6
+  Changed `Result<TData, TErr>` and `Result<TErr>` to handle structs properly so I can have Variant
+  types that are the TErr of a Result and have it work correctly
 - v0.5
   Changed `Option<T> signature`
 - v0.4
